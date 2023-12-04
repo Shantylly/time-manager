@@ -1,0 +1,10 @@
+node_modules
+.DS_Store
+dist
+*.local
+yarn-error.log
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build

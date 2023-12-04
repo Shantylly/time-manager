@@ -1,0 +1,41 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - 'main'  # Trigger on all branches except 'main'
+    
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+
+        - name: Checkout code into a directory
+          uses: actions/checkout@v2
+
+        - name: Set up Node.js
+          uses: actions/setup-node@v2
+          with:
+            node-version: 20.5.1  # Specify your desired Node.js version here
+
+        - name: Deploy Frontend
+          run: |
+            cd front  # Navigate to the 'back' directory
+            npm install
+            npm run build
+            npm install netlify-cli -g
+            netlify deploy --prod -a nfp_zTEcyBd6hdvbGtZWepYNdmHuCWVwvofC500e --site time-manager-hyogo -d dist
+
+
+        - name: Run Deploy Backend
+          run: |
+            git subtree push --prefix back origin deployBack
+            git checkout deployBack
+            sudo pip install gigalixir --ignore-installed six
+            gigalixir login -e "hvincent134@gmail.com" -y -p "CoucouDavid1234!"
+            gigalixir git:remote time-manager-hyogo
+            git push -f gigalixir HEAD:refs/heads/main
+            git checkout main
+            git push origin --delete deployBack
+

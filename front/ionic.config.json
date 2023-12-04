@@ -1,0 +1,8 @@
+{
+  "name": "tailwind-dashboard",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "custom"
+}

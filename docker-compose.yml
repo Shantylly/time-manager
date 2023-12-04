@@ -1,0 +1,66 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - monitoring
+
+  back:
+    build: ./back
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/back
+    depends_on:
+      - db
+      - grafana
+    env_file:
+      - Timemanager.env
+    networks:
+      - monitoring
+
+
+  front:
+    build: ./front
+    ports:
+      - "8082:8080"
+    volumes:
+      - .:/front
+    depends_on:
+      - back
+    networks:
+      - monitoring
+
+
+  prometheus:
+    image: prom/prometheus:v2.30.3
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - monitoring
+
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    networks:
+      - monitoring
+
+
+networks:
+  monitoring:
+
+volumes:
+  grafana-data:
