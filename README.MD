@@ -47,3 +47,9 @@ Follow instructions in README.MD
 `cd front`
 ```
 Follow instructions in README.MD
+
+## Members
+
+- [Mickaël Grèzes](https://github.com/Shantylly)
+- [Hugo Vincent](https://github.com/Hy0g0)
+- [Paul Duquesnoy](https://github.com/DuquesnoyPaul)
